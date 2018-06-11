@@ -1,12 +1,12 @@
-# fork of larareko/aws-rekognition
+# fork of larareko/aws-comprehend
 
-A Laravel package/facade for the Rekognition API PHP SDK.
+A Laravel package/facade for Amazon Comprehend, part of AWS API PHP SDK.
 
-This repository implements a simple Service Provider of the AWS Rekognition client, and makes it easily accessible via a Facade in Laravel >= 5.
+This repository implements a simple Service Provider of the AWS Comprehend client, and makes it easily accessible via a Facade in Laravel >= 5.
 
-* Now updated for Rekognition video (startLabelDetection, getLabelDetection, startContentModeration, getContentModeration, startCelebrityRecognition, getCelebrityRecognition)
+* See docs for usage (https://docs.aws.amazon.com/comprehend/latest/dg/API_Reference.html)
 
-See [AWS Rekognition](https://aws.amazon.com/rekognition/) for more information.
+Also see [AWS Comprehend](https://aws.amazon.com/comprehend/) for more information.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ Create an account at [AWS](https://aws.amazon.com/console/) and take note of you
 
 In your terminal application move to the root directory of your laravel project using the cd command and require the project as a dependency using composer.
 
-composer require michaeljwright/aws-rekognition
+composer require michaeljwright/aws-comprehend
 
 This will add the following lines to your composer.json and download the project and its dependencies to your projects ./vendor directory:
 
@@ -25,16 +25,18 @@ This will add the following lines to your composer.json and download the project
 
 ./composer.json
 {
-    "name": "michaeljwright/larareko-demo",
-    "description": "A dummy project used to test the Laravel Larareko (AWS Rekognition) Facade.",
+    "name": "michaeljwright/aws-comprehend",
+    "description": "A Laravel package for the AWS Comprehend",
 
     // ...
 
-    "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
-        "michaeljwright/aws-rekognition": "0.1*",
+    "require-dev": {
+        "phpunit/phpunit": "~5.7",
+        "orchestra/testbench": "~3.0"
         // ...
+    },
+    "require": {
+        "aws/aws-sdk-php":"~3.0"
     },
 
     //...
@@ -60,7 +62,7 @@ return [
         /*
          * Package Service Providers...
          */
-        MichaelJWright\Rekognition\RekognitionServiceProvider::class, // [a]
+        MichaelJWright\Rekognition\ComprehendServiceProvider::class, // [a]
 
         /*
          * Application Service Providers...
@@ -81,7 +83,7 @@ return [
 
         // ...
 
-        'Rekognition' => 'MichaelJWright\Rekognition\RekognitionFacade', // [b]
+        'Rekognition' => 'MichaelJWright\Comprehend\ComprehendFacade', // [b]
         'Hash' => Illuminate\Support\Facades\Hash::class,
 
         // ...
@@ -98,59 +100,23 @@ aws-rekognition requires a connection configuration. To get started, you'll need
 
 php artisan vendor:publish
 
-This will create a config/rekognition.php file in your app that you can modify to set your configuration. Make sure you check for changes compared to the original config file after an upgrade.
+This will create a config/comprehend.php file in your app that you can modify to set your configuration. Make sure you check for changes compared to the original config file after an upgrade.
 
 Now you should be able to use the facade within your application. Ex:
 
 ```php
 
-class LabelDetectionImage extends Model
-{
-    /**
-     * Upload image to S3
-     *
-     * @param Illuminate\Http\UploadedFile  $file
-     *
-     * @return string
-     */
-    public function upload(UploadedFile $file) : string
-    {
-        $name = time() . $file->getClientOriginalName();
-
-        \Rekognition::uploadImageToS3(file_get_contents($file), null, self::BUCKET, $name);
-
-        return $name;
-    }
-}
+Example code to go here
 
 ```
 
-## Example for video label recognition
+## Example to detect Sentiment from a given text/string array
 
 ```php
 
-// FIRST call startLabelDetection to create a rekognition job
+// FIRST call detectSentiment to create a comprehend job
 
-$config = [
-       'MinConfidence' => 80, //set confidence level for probability of correct labels
-       'Video' => [
-           'S3Object' => [
-               'Bucket' => 'YOUR_BUCKET_NAME',
-               'Name' => 'YOUR_VIDEO_FILE_NAME',
-           ],
-       ],
-   ];
-$job = \Rekognition::startLabelDetection($config); //start a job in rekognition for specific video file
-dd($job['JobId']); //output job id so you can use it to get the labels
-
-// THEN call getLabelDetection to get the labels for the specific job
-
-$config = [
-       'JobId' => 'YOUR_JOB_ID',
-       'SortBy' => 'NAME', //set to whatever you want to sort the labels by
-   ];
-$job = \Rekognition::getLabelDetection($config);
-dd($job['Labels']); //output the labels
+Example code to go here
 
 ```
 

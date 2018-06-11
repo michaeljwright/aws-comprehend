@@ -40,6 +40,39 @@ class Comprehend
     }
 
     /**
+     * Determines the dominant language of the input text for a batch of documents.
+     *
+     * @param array     $params
+     * @return array
+     */
+    public function batchDetectDominantLanguage(array $params = [])
+    {
+        return $this->client->batchDetectDominantLanguage($params);
+    }
+
+    /**
+     * Determines the dominant language of the input text.  (POSITIVE, NEUTRAL, MIXED, or NEGATIVE).
+     *
+     * @param array     $params
+     * @return array
+     */
+    public function detectDominantLanguage(array $params = [])
+    {
+        return $this->client->detectDominantLanguage($params);
+    }
+
+    /**
+     * Inspects a batch of documents and returns an inference of the prevailing sentiment, POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
+     *
+     * @param array     $params
+     * @return array
+     */
+    public function batchDetectSentiment(array $params = [])
+    {
+        return $this->client->batchDetectSentiment($params);
+    }
+
+    /**
      * Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE).
      *
      * @param array     $params
@@ -48,6 +81,17 @@ class Comprehend
     public function detectSentiment(array $params = [])
     {
         return $this->client->detectSentiment($params);
+    }
+
+    /**
+     * Detects the key noun phrases found in the text.
+     *
+     * @param array     $params
+     * @return array
+     */
+    public function detectKeyPhrases(array $params = [])
+    {
+        return $this->client->detectKeyPhrases($params);
     }
 
 }
