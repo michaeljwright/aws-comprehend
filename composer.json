@@ -1,0 +1,23 @@
+{
+    "name": "michaeljwright/aws-comprehend",
+    "description": "A Laravel package for the AWS Comprehend",
+    "require-dev": {
+        "phpunit/phpunit": "~5.7",
+        "orchestra/testbench": "~3.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike Wright",
+            "email": "mike.filmworks@gmail.com"
+        }
+    ],
+    "require": {
+        "aws/aws-sdk-php":"~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MichaelJWright\\Comprehend\\": "src/"
+        }
+    }
+}
