@@ -62,7 +62,7 @@ return [
         /*
          * Package Service Providers...
          */
-        MichaelJWright\Rekognition\ComprehendServiceProvider::class, // [a]
+        MichaelJWright\Comprehend\ComprehendServiceProvider::class, // [a]
 
         /*
          * Application Service Providers...
