@@ -83,7 +83,7 @@ return [
 
         // ...
 
-        'Rekognition' => 'MichaelJWright\Comprehend\ComprehendFacade', // [b]
+        'Comprehend' => 'MichaelJWright\Comprehend\ComprehendFacade', // [b]
         'Hash' => Illuminate\Support\Facades\Hash::class,
 
         // ...
