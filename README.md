@@ -96,27 +96,75 @@ return [
 
 ## Publish Vendor
 
-aws-rekognition requires a connection configuration. To get started, you'll need to publish all vendor assets running:
+aws-comprehend requires a connection configuration. To get started, you'll need to publish all vendor assets running:
 
 php artisan vendor:publish
 
-This will create a config/comprehend.php file in your app that you can modify to set your configuration. Make sure you check for changes compared to the original config file after an upgrade.
+This will create a config/comprehend.php file in your app that you can modify to set your configuration. Make sure you add relevant environment variables which are referenced in the comprehend.php file. It's also very important to edit your AWS IAM for the specified key/secret/region to include the Amazon Comprehend API.
 
 Now you should be able to use the facade within your application. Ex:
 
 ```php
 
-Example code to go here
+$config = [
+       'LanguageCode' => 'en',
+       'TextList' => ['This is good', 'This is bad'],
+   ];
+
+$jobSentiment = \Comprehend::batchDetectSentiment($config);
+
+dd($jobSentiment['ResultList']);
 
 ```
 
-## Example to detect Sentiment from a given text/string array
+## Example to detect Sentiment from a given array containing strings (comments)
 
 ```php
 
-// FIRST call detectSentiment to create a comprehend job
+// FIRST create a function to call the comprehend facade and parse the results (below will return an array with the overall sentiment as well as positive/negative scores)
 
-Example code to go here
+public function sentimentAnalysis($comments) {
+
+    $results = array();
+
+    if(count($comments)>0) {
+        $config = [
+               'LanguageCode' => 'en',
+               'TextList' => $comments,
+           ];
+
+        $jobSentiment = \Comprehend::batchDetectSentiment($config);
+
+        $positive = array();
+        $negative = array();
+
+        if(count($jobSentiment['ResultList'])) {
+            foreach($jobSentiment['ResultList'] as $result){
+                $positive[] = $result['SentimentScore']['Positive'];
+                $negative[] = $result['SentimentScore']['Negative'];
+            }
+        }
+
+        $results['positive'] = array_sum($positive)/count($positive);
+        $results['negative'] = array_sum($negative)/count($negative);
+        $results['sentiment'] = ($results['positive'] > $results['negative'] ? 'POSITIVE' : 'NEGATIVE');
+
+        return $results;
+    } else {
+        return $results['sentiment'] = 'INVALID';
+    }
+}
+
+// SECOND create an array of comments for the analysis and call the above function
+
+$comments = [
+    'I think this is very good considering I created a package/wrapper for Amazon Comprehend. Yay me!',
+    'Oh my good this is such a bloody rubbish package/wrapper. I hope the author stops coding immediately.',
+    'This is really good, I really love this stand by this',
+    'This is sooooo bad'
+];
+
+dd($this->sentimentAnalysis($comments));
 
 ```
 
