@@ -1,6 +1,6 @@
-# fork of larareko/aws-comprehend
-
 A Laravel package/facade for Amazon Comprehend, part of AWS API PHP SDK.
+
+Amazon Comprehend is a natural language processing (NLP) service that uses machine learning to find insights and relationships in text.  It's great for running sentiment analysis on batches of documents.
 
 This repository implements a simple Service Provider of the AWS Comprehend client, and makes it easily accessible via a Facade in Laravel >= 5.
 
@@ -43,7 +43,7 @@ This will add the following lines to your composer.json and download the project
 }
 ```
 
-## Usage
+## Setup / Configuration
 
 In order to use the static interface we must customize the application configuration to tell the system where it can find the new service. Open the file config/app.php and add the following lines ([a], [b]):
 
@@ -100,9 +100,17 @@ aws-comprehend requires a connection configuration. To get started, you'll need 
 
 php artisan vendor:publish
 
-This will create a config/comprehend.php file in your app that you can modify to set your configuration. Make sure you add relevant environment variables which are referenced in the comprehend.php file. It's also very important to edit your AWS IAM for the specified key/secret/region to include the Amazon Comprehend API.
+This will create a config/comprehend.php file in your app that you can modify to set your configuration. Make sure you add relevant environment variables which are referenced in the comprehend.php file.
 
-Now you should be able to use the facade within your application. Ex:
+_IMPORTANT_ It's very important to edit your AWS IAM for the specified key/secret/region to include the Amazon Comprehend API. Otherwise nothing will work.
+
+## Usage
+
+Now you should be able to use the facade within your application.
+
+_IMPORTANT_ There is a limit of 25 comments (what AWS calls documents) for each API call.
+
+For example:
 
 ```php
 
